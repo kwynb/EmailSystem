@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/email")
@@ -49,4 +50,9 @@ public class EmailContentController {
         }
         return new ResponseEntity<>(emailContent, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/get")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
+
 }

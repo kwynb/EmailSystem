@@ -6,6 +6,8 @@ import com.bragado.EmailSystem.repositories.EmailContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailContentServiceImpl implements EmailContentService {
 
@@ -30,4 +32,9 @@ public class EmailContentServiceImpl implements EmailContentService {
         }
         return emailRepository.findById(id).get();
     }
+
+    @Override
+    public List<EmailContent> getEmailList() { return emailRepository.findAll(); }
+
+
 }
