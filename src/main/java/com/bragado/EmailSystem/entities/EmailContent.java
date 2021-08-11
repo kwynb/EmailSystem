@@ -2,15 +2,20 @@ package com.bragado.EmailSystem.entities;
 
 import com.bragado.EmailSystem.components.AttributeEncryptor;
 import com.bragado.EmailSystem.dto.EmailId;
-import com.bragado.EmailSystem.entities.User;
-import org.apache.kafka.common.protocol.types.Field;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.validation.constraints.Email;
-
 import javax.persistence.*;
+import java.util.Date;
+
 
 @Entity
-@Table(name="emaildb")
+@Table(name="email")
+@EntityListeners(AuditingEntityListener.class)
 public class EmailContent {
 
     @Id
@@ -21,12 +26,22 @@ public class EmailContent {
     private String sender;
     @Email
     private String recipient;
-
     @Convert(converter = AttributeEncryptor.class)
     private String subject;
     @Convert(converter = AttributeEncryptor.class)
     private String text;
 
+    @CreatedDate
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+    private Date createdAt;
+
+    @LastModifiedDate
+    @Column(name = "last_modified")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+    private Date lastModified;
     public EmailContent() {}
 
 
@@ -35,6 +50,16 @@ public class EmailContent {
         this.recipient = recipient;
         this.subject = subject;
         this.text = text;
+    }
+
+    public EmailContent(Long id, String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
+        this.id = id;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.subject = subject;
+        this.text = text;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
     }
 
     public Long getId() {
@@ -77,6 +102,22 @@ public class EmailContent {
         this.text = text;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
     @Override
     public String toString() {
         return "EmailContent{" +
@@ -85,6 +126,9 @@ public class EmailContent {
                 ", recipient='" + recipient + '\'' +
                 ", subject='" + subject + '\'' +
                 ", text='" + text + '\'' +
+                ", createdAt=" + createdAt +
+                ", lastModified=" + lastModified +
                 '}';
     }
 }
+

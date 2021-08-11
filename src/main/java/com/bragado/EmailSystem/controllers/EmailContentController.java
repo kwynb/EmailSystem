@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/emails")
 @Validated
 public class EmailContentController {
 
@@ -60,7 +60,7 @@ public class EmailContentController {
         return new ResponseEntity<>(emailContent, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = {"","/get"})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
 

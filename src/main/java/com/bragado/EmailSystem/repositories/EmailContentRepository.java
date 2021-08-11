@@ -3,18 +3,29 @@ package com.bragado.EmailSystem.repositories;
 
 import com.bragado.EmailSystem.entities.EmailContent;
 import com.bragado.EmailSystem.entities.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.Email;
+import java.util.Date;
+import java.util.List;
 
 
 @Repository
 public interface EmailContentRepository extends JpaRepository<EmailContent, Long> {
 
-//    @Query(value="SELECT firstname, lastname, email, FROM userdb u WHERE u.email = :email")
-//    User findByEmail(@Param("email") @Email String email);
+    @Query(value="SELECT * FROM email WHERE sender = :sender", nativeQuery = true)
+    List<EmailContent> findEmailsSentBy(@Param("sender") @Email String sender);
+
+    @Query(value="SELECT * FROM email WHERE recipient = :recipient", nativeQuery = true)
+    List<EmailContent> findEmailsReceivedBy(@Param("recipient") @Email String recipient);
+
+    @Query(value="SELECT * FROM email WHERE created_at = :date", nativeQuery = true)
+    List<EmailContent> findEmailsCreatedAt(@Param("created_at") @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss") Date createdAt);
+
 
 }
