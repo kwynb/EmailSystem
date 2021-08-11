@@ -3,6 +3,7 @@ package com.bragado.EmailSystem.services;
 
 import com.bragado.EmailSystem.dto.EmailContentDTO;
 import com.bragado.EmailSystem.entities.EmailContent;
+import com.bragado.EmailSystem.entities.User;
 
 import java.util.List;
 

@@ -4,11 +4,15 @@ import com.bragado.EmailSystem.components.Response;
 import com.bragado.EmailSystem.dto.EmailContentDTO;
 import com.bragado.EmailSystem.dto.EmailId;
 import com.bragado.EmailSystem.entities.EmailContent;
+import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.services.EmailContentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,8 +23,10 @@ import java.util.List;
 public class EmailContentController {
 
     private final EmailContentService emailService;
+    private final RestTemplate restTemplate;
 
-    public EmailContentController(EmailContentService emailService) {
+    public EmailContentController(EmailContentService emailService,RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
         this.emailService = emailService;
     }
 
@@ -55,4 +61,10 @@ public class EmailContentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
 
+    @GetMapping(value="/users")
+    public ResponseEntity<User[]>  getUserListJSON() {
+        ResponseEntity<User[]> res = restTemplate.getForEntity("http://localhost:8080/users/get",User[].class);
+        User[] userList = res.getBody();
+        return new ResponseEntity<>(userList,HttpStatus.OK);
+    }
 }
