@@ -2,6 +2,8 @@ package com.bragado.EmailSystem.entities;
 
 import com.bragado.EmailSystem.components.AttributeEncryptor;
 import com.bragado.EmailSystem.dto.EmailId;
+import com.bragado.EmailSystem.entities.User;
+import org.apache.kafka.common.protocol.types.Field;
 
 import javax.validation.constraints.Email;
 
@@ -15,10 +17,9 @@ public class EmailContent {
     @EmailId
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Email(message = "Email should be valid.")
+    @Email
     private String sender;
-    @Email(message = "Email should be valid.")
+    @Email
     private String recipient;
 
     @Convert(converter = AttributeEncryptor.class)
@@ -27,6 +28,7 @@ public class EmailContent {
     private String text;
 
     public EmailContent() {}
+
 
     public EmailContent(String sender, String recipient, String subject, String text) {
         this.sender = sender;

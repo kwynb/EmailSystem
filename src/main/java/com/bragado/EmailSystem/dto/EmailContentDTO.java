@@ -6,6 +6,7 @@ public class EmailContentDTO {
 
     private String sender;
     private String recipient;
+
     private String subject;
     private String text;
 

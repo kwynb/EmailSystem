@@ -11,6 +11,7 @@ import java.util.Date;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class User {
 
     private Long id;

@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/email")
@@ -61,10 +64,9 @@ public class EmailContentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
 
-    @GetMapping(value="/users")
-    public ResponseEntity<User[]>  getUserListJSON() {
-        ResponseEntity<User[]> res = restTemplate.getForEntity("http://localhost:8080/users/get",User[].class);
-        User[] userList = res.getBody();
-        return new ResponseEntity<>(userList,HttpStatus.OK);
+    @GetMapping(value="/user")
+    public ResponseEntity<User>  getUser(@RequestParam(value="email") String email) {
+        return new ResponseEntity<>(emailService.getUserByEmail(email),HttpStatus.OK);
     }
+
 }

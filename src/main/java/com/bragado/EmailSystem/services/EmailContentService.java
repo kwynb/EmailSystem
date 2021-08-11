@@ -13,4 +13,5 @@ public interface EmailContentService {
     EmailContent getEmail(Long id);
     void deleteEmail(Long id);
     List<EmailContent> getEmailList();
+    User getUserByEmail(String email);
 }
