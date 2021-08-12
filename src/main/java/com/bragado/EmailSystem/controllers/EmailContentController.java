@@ -42,6 +42,13 @@ public class EmailContentController {
         return new ResponseEntity<>(emailService.createEmail(emailDTO), HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/update")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<EmailContent> createEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
+        return new ResponseEntity<>(emailService.updateEmail(emailDTO,id), HttpStatus.OK);
+    }
+
+
     @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
     public Response deleteEmail(@Valid @RequestParam(value="id") Long id) {

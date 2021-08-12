@@ -1,5 +1,6 @@
 package com.bragado.EmailSystem.services;
 
+import com.bragado.EmailSystem.components.RestService;
 import com.bragado.EmailSystem.dto.EmailContentDTO;
 import com.bragado.EmailSystem.entities.EmailContent;
 import com.bragado.EmailSystem.entities.User;
@@ -31,6 +32,16 @@ public class EmailContentServiceImpl implements EmailContentService {
     }
 
     @Override
+    public EmailContent updateEmail(EmailContentDTO emailContent, Long id) {
+        EmailContent email = emailRepository.findById(id).get();
+        email.setSender(emailContent.getSender());
+        email.setRecipient(emailContent.getRecipient());
+        email.setSubject(emailContent.getSubject());
+        email.setText(emailContent.getText());
+        return emailRepository.save(email);
+    }
+
+    @Override
     public void deleteEmail(Long id) {
         emailRepository.deleteById(id);
     }
@@ -49,21 +60,10 @@ public class EmailContentServiceImpl implements EmailContentService {
 
     @Override
     public User getUserByEmail(String email) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/users/get/email")
                 .queryParam("email", email);
-
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        HttpEntity<User> response = restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                entity,
-                User.class);
-
-        return response.getBody();
+        User response = RestService.call(builder,HttpMethod.GET,User.class);
+        return response;
     }
 
     @Override

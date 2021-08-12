@@ -11,6 +11,7 @@ import java.util.List;
 public interface EmailContentService {
 
     EmailContent createEmail(EmailContentDTO emailContent);
+    EmailContent updateEmail(EmailContentDTO emailContent, Long id);
     EmailContent getEmail(Long id);
     void deleteEmail(Long id);
     List<EmailContent> getEmailList();

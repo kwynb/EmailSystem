@@ -42,6 +42,7 @@ public class EmailContent {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
     private Date lastModified;
+
     public EmailContent() {}
 
 
