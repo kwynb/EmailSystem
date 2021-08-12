@@ -6,8 +6,10 @@ import com.bragado.EmailSystem.dto.EmailId;
 import com.bragado.EmailSystem.entities.EmailContent;
 import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.services.EmailContentService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -69,4 +72,18 @@ public class EmailContentController {
         return new ResponseEntity<>(emailService.getUserByEmail(email),HttpStatus.OK);
     }
 
+    @GetMapping(value="/sent")
+    public ResponseEntity<List<EmailContent>>  getEmailsSentBy(@RequestParam(value="by") @Email String email) {
+        return new ResponseEntity<>(emailService.getEmailsSentBy(email),HttpStatus.OK);
+    }
+
+    @GetMapping(value="/received")
+    public ResponseEntity<List<EmailContent>>  getEmailsReceivedBy(@RequestParam(value="by") @Email String email) {
+        return new ResponseEntity<>(emailService.getEmailsReceivedBy(email),HttpStatus.OK);
+    }
+
+    @GetMapping(value="/created")
+    public ResponseEntity<List<EmailContent>>  getEmailsCreatedAt(@RequestParam(value="at") @JsonFormat(pattern = "MM/dd/yyyy") Date date) {
+        return new ResponseEntity<>(emailService.getEmailsCreatedAt(date),HttpStatus.OK);
+    }
 }

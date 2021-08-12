@@ -24,8 +24,8 @@ public interface EmailContentRepository extends JpaRepository<EmailContent, Long
     @Query(value="SELECT * FROM email WHERE recipient = :recipient", nativeQuery = true)
     List<EmailContent> findEmailsReceivedBy(@Param("recipient") @Email String recipient);
 
-    @Query(value="SELECT * FROM email WHERE created_at = :date", nativeQuery = true)
-    List<EmailContent> findEmailsCreatedAt(@Param("created_at") @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss") Date createdAt);
+    @Query(value="SELECT * FROM email WHERE CAST(created_at AS DATE) = :created_at", nativeQuery = true)
+    List<EmailContent> findEmailsCreatedAt(@Param("created_at") @JsonFormat(pattern = "MM-dd-yyyy") Date createdAt);
 
 
 }

@@ -68,17 +68,17 @@ public class EmailContentServiceImpl implements EmailContentService {
 
     @Override
     public List<EmailContent> getEmailsSentBy(String sender) {
-        return null;
+        return emailRepository.findEmailsSentBy(sender);
     }
 
     @Override
     public List<EmailContent> getEmailsReceivedBy(String recipient) {
-        return null;
+        return emailRepository.findEmailsReceivedBy(recipient);
     }
 
     @Override
     public List<EmailContent> getEmailsCreatedAt(Date createdAt) {
-        return null;
+        return emailRepository.findEmailsCreatedAt(createdAt);
     }
 
 
