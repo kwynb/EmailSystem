@@ -34,13 +34,13 @@ public class EmailContent {
     @CreatedDate
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
     private Date createdAt;
 
     @LastModifiedDate
     @Column(name = "last_modified")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
+    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
     private Date lastModified;
 
     public EmailContent() {}

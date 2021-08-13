@@ -7,13 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 @SpringBootApplication
 @EnableEncryptableProperties
 @EnableJpaAuditing
 public class EmailSystemApplication {
-
+	
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
