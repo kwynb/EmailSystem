@@ -21,3 +21,16 @@ server:
     whitelabel:
       enabled: false
   port: 8001
+---
+#Spring Kafka
+spring:
+  kafka:
+    template:
+      default-topic: userdata-topic
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: user-group
+      properties:
+        spring.json.trusted.packages: "*"

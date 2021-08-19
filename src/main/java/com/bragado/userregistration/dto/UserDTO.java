@@ -1,52 +1,31 @@
-package com.bragado.EmailSystem.entities;
+package com.bragado.userregistration.dto;
 
-
-import com.bragado.userregistration.dto.UserDTO;
+import com.bragado.EmailSystem.entities.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+public class UserDTO {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-@Table(name="user_cp")
-public class User {
-    @Column(name = "id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
-
-    @Column(name = "firstname")
     private String firstName;
-    @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "birthday")
     @Past(message = "Birthday should be valid.")
     @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
     private Date birthDay;
-
     @Email(message = "Email should be valid.")
     private String email;
-    public User() {}
 
-    public User(String firstName, String lastName, Date birthDay, String email) {
+    public UserDTO() {
+    }
+
+    public UserDTO(String firstName, String lastName, Date birthDay, String email) {
+        super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
         this.email = email;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -81,19 +60,17 @@ public class User {
         this.email = email;
     }
 
+    public User toUser() {
+        return new User(firstName,lastName,birthDay,email);
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
+        return "UserDTO{" +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDay=" + birthDay +
                 ", email='" + email + '\'' +
                 '}';
     }
-
-    public UserDTO toUserDTO() {
-        return new UserDTO(firstName,lastName,birthDay,email);
-    }
-
 }
