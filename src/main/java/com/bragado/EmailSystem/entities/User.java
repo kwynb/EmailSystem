@@ -24,20 +24,19 @@ public class User {
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "birthday")
-    @Past(message = "Birthday should be valid.")
-    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
-    private Date birthDay;
+//
+//    @Column(name = "birthday")
+//    @Past(message = "Birthday should be valid.")
+//    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
+//    private Date birthDay;
 
     @Email(message = "Email should be valid.")
     private String email;
     public User() {}
 
-    public User(String firstName, String lastName, Date birthDay, String email) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDay = birthDay;
         this.email = email;
     }
 
@@ -65,14 +64,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -87,13 +78,12 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", birthDay=" + birthDay +
                 ", email='" + email + '\'' +
                 '}';
     }
 
     public UserDTO toUserDTO() {
-        return new UserDTO(firstName,lastName,birthDay,email);
+        return new UserDTO(firstName,lastName,email);
     }
 
 }

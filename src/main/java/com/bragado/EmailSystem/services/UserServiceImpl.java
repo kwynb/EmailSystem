@@ -3,7 +3,6 @@ package com.bragado.EmailSystem.services;
 import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.repositories.UserRepository;
 import com.bragado.userregistration.dto.UserDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,9 +23,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(UserDTO userDTO) {
         User user = userRepository.findByEmail(userDTO.getEmail());
+        if (user == null) {
+            User update = userRepository.findByName(userDTO.getFirstName(),userDTO.getLastName());
+            update.setFirstName(userDTO.getFirstName());
+            update.setLastName(userDTO.getLastName());
+            update.setEmail(userDTO.getEmail());
+            return userRepository.save(update);
+        }
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setBirthDay(userDTO.getBirthDay());
         user.setEmail(userDTO.getEmail());
         return userRepository.save(user);
     }

@@ -2,29 +2,30 @@ package com.bragado.userregistration.dto;
 
 import com.bragado.EmailSystem.entities.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO {
 
     private String firstName;
     private String lastName;
-    @Past(message = "Birthday should be valid.")
-    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
-    private Date birthDay;
+//    @Past(message = "Birthday should be valid.")
+//    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
+//    private Date birthDay;
     @Email(message = "Email should be valid.")
     private String email;
 
     public UserDTO() {
     }
 
-    public UserDTO(String firstName, String lastName, Date birthDay, String email) {
+    public UserDTO(String firstName, String lastName, String email) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDay = birthDay;
         this.email = email;
     }
 
@@ -44,13 +45,13 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
+//    public Date getBirthDay() {
+//        return birthDay;
+//    }
+//
+//    public void setBirthDay(Date birthDay) {
+//        this.birthDay = birthDay;
+//    }
 
     public String getEmail() {
         return email;
@@ -61,7 +62,7 @@ public class UserDTO {
     }
 
     public User toUser() {
-        return new User(firstName,lastName,birthDay,email);
+        return new User(firstName,lastName, email);
     }
 
     @Override
@@ -69,7 +70,6 @@ public class UserDTO {
         return "UserDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", birthDay=" + birthDay +
                 ", email='" + email + '\'' +
                 '}';
     }
