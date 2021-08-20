@@ -9,4 +9,6 @@ public interface UserService {
     User updateUser(UserDTO userDTO);
     void deleteUser(UserDTO userDTO);
     User getUser(UserDTO userDTO);
+    User getUserByEmail(String email);
+
 }

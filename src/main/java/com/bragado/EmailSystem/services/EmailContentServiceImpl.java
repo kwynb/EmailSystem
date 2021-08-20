@@ -1,16 +1,10 @@
 package com.bragado.EmailSystem.services;
 
-import com.bragado.EmailSystem.components.RestService;
 import com.bragado.EmailSystem.dto.EmailContentDTO;
 import com.bragado.EmailSystem.entities.EmailContent;
 import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.repositories.EmailContentRepository;
-
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Date;
 import java.util.List;
@@ -18,16 +12,16 @@ import java.util.List;
 @Service
 public class EmailContentServiceImpl implements EmailContentService {
     private final EmailContentRepository emailRepository;
+    private final UserService userService;
 
-    private final RestTemplate restTemplate;
-
-    public EmailContentServiceImpl(EmailContentRepository emailRepository, RestTemplateBuilder restTemplateBuilder) {
+    public EmailContentServiceImpl(EmailContentRepository emailRepository, UserService userService) {
         this.emailRepository = emailRepository;
-        this.restTemplate = restTemplateBuilder.build();
+        this.userService = userService;
     }
 
     @Override
     public EmailContent createEmail(EmailContentDTO emailContent) {
+
         return emailRepository.save(emailContent.toEmail());
     }
 
@@ -59,14 +53,6 @@ public class EmailContentServiceImpl implements EmailContentService {
     public List<EmailContent> getEmailList() { return emailRepository.findAll(); }
 
     @Override
-    public User getUserByEmail(String email) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/users/get/email")
-                .queryParam("email", email);
-        User response = RestService.call(builder,HttpMethod.GET,User.class);
-        return response;
-    }
-
-    @Override
     public List<EmailContent> getEmailsSentBy(String sender) {
         return emailRepository.findEmailsSentBy(sender);
     }
@@ -81,5 +67,13 @@ public class EmailContentServiceImpl implements EmailContentService {
         return emailRepository.findEmailsCreatedAt(createdAt);
     }
 
-
+    @Override
+    public boolean isEmailValid(String sender, String recipient) {
+        User from = userService.getUserByEmail(sender);
+        User to = userService.getUserByEmail(recipient);
+        if (from == null || to == null) {
+            return true;
+        }
+        return false;
+    }
 }

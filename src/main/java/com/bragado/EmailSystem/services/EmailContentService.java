@@ -3,7 +3,6 @@ package com.bragado.EmailSystem.services;
 
 import com.bragado.EmailSystem.dto.EmailContentDTO;
 import com.bragado.EmailSystem.entities.EmailContent;
-import com.bragado.EmailSystem.entities.User;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +15,7 @@ public interface EmailContentService {
     void deleteEmail(Long id);
     List<EmailContent> getEmailList();
 
-    User getUserByEmail(String email);
+    boolean isEmailValid(String sender, String recipient);
     List<EmailContent> getEmailsSentBy(String sender);
     List<EmailContent> getEmailsReceivedBy(String recipient);
     List<EmailContent> getEmailsCreatedAt(Date createdAt);

@@ -6,22 +6,17 @@ import com.bragado.EmailSystem.dto.EmailId;
 import com.bragado.EmailSystem.entities.EmailContent;
 import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.services.EmailContentService;
+import com.bragado.EmailSystem.services.UserService;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/emails")
@@ -29,22 +24,25 @@ import java.util.stream.Stream;
 public class EmailContentController {
 
     private final EmailContentService emailService;
-    private final RestTemplate restTemplate;
-
-    public EmailContentController(EmailContentService emailService,RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public EmailContentController(EmailContentService emailService) {
         this.emailService = emailService;
     }
 
     @PostMapping(value = "/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<EmailContent> createEmail(@Valid @RequestBody EmailContentDTO emailDTO) {
+    public ResponseEntity<Object> createEmail(@Valid @RequestBody EmailContentDTO emailDTO) {
+        if (emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
+            return new ResponseEntity<>(new Response("Invalid email. User not found."), HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(emailService.createEmail(emailDTO), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EmailContent> createEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
+    public ResponseEntity<Object> createEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
+        if (emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
+            return new ResponseEntity<>(new Response("Invalid email. User not found."), HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(emailService.updateEmail(emailDTO,id), HttpStatus.OK);
     }
 
@@ -74,10 +72,6 @@ public class EmailContentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
 
-    @GetMapping(value="/user")
-    public ResponseEntity<User>  getUser(@RequestParam(value="email") String email) {
-        return new ResponseEntity<>(emailService.getUserByEmail(email),HttpStatus.OK);
-    }
 
     @GetMapping(value="/sent")
     public ResponseEntity<List<EmailContent>>  getEmailsSentBy(@RequestParam(value="by") @Email String email) {
@@ -93,4 +87,5 @@ public class EmailContentController {
     public ResponseEntity<List<EmailContent>>  getEmailsCreatedAt(@RequestParam(value="at") @JsonFormat(pattern = "MM/dd/yyyy") Date date) {
         return new ResponseEntity<>(emailService.getEmailsCreatedAt(date),HttpStatus.OK);
     }
+
 }
