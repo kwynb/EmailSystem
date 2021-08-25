@@ -1,4 +1,6 @@
-package com.bragado.EmailSystem.dto;
+package com.bragado.EmailSystem.components;
+
+import com.bragado.EmailSystem.components.EmailId;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

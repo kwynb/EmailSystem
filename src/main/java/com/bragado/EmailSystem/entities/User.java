@@ -2,21 +2,18 @@ package com.bragado.EmailSystem.entities;
 
 
 import com.bragado.userregistration.dto.UserDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import java.util.Date;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name="user_cp")
+@Table(name="user_copy")
 public class User {
-    @Column(name = "id")
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
@@ -24,12 +21,6 @@ public class User {
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-//
-//    @Column(name = "birthday")
-//    @Past(message = "Birthday should be valid.")
-//    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
-//    private Date birthDay;
-
     @Email(message = "Email should be valid.")
     private String email;
     public User() {}

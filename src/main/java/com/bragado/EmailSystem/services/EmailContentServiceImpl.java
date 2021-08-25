@@ -72,8 +72,8 @@ public class EmailContentServiceImpl implements EmailContentService {
         User from = userService.getUserByEmail(sender);
         User to = userService.getUserByEmail(recipient);
         if (from == null || to == null) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

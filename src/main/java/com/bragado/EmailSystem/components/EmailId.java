@@ -1,4 +1,4 @@
-package com.bragado.EmailSystem.dto;
+package com.bragado.EmailSystem.components;
 
 import javax.validation.Constraint;
 

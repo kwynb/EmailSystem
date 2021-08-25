@@ -1,11 +1,8 @@
 package com.bragado.EmailSystem.components;
 
-import com.bragado.EmailSystem.entities.User;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 public class RestService {
 

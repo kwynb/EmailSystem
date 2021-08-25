@@ -1,4 +1,4 @@
-package com.bragado.EmailSystem.configuration;
+package com.bragado.EmailSystem.components;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;

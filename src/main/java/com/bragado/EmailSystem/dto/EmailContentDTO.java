@@ -13,6 +13,8 @@ public class EmailContentDTO {
     private Date createdAt;
     private Date lastModified;
 
+    public EmailContentDTO() {}
+
     public EmailContentDTO(String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
         this.sender = sender;
         this.recipient = recipient;

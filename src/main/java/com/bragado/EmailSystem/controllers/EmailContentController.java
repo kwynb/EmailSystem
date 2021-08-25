@@ -2,11 +2,9 @@ package com.bragado.EmailSystem.controllers;
 
 import com.bragado.EmailSystem.components.Response;
 import com.bragado.EmailSystem.dto.EmailContentDTO;
-import com.bragado.EmailSystem.dto.EmailId;
+import com.bragado.EmailSystem.components.EmailId;
 import com.bragado.EmailSystem.entities.EmailContent;
-import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.services.EmailContentService;
-import com.bragado.EmailSystem.services.UserService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,7 @@ public class EmailContentController {
     @PostMapping(value = "/new")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createEmail(@Valid @RequestBody EmailContentDTO emailDTO) {
-        if (emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
+        if (!emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
             return new ResponseEntity<>(new Response("Invalid email. User not found."), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(emailService.createEmail(emailDTO), HttpStatus.CREATED);
@@ -40,7 +38,7 @@ public class EmailContentController {
     @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> createEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
-        if (emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
+        if (!emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
             return new ResponseEntity<>(new Response("Invalid email. User not found."), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(emailService.updateEmail(emailDTO,id), HttpStatus.OK);

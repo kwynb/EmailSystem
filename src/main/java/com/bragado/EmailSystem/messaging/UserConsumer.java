@@ -1,10 +1,8 @@
 package com.bragado.EmailSystem.messaging;
 
 
-import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.repositories.UserRepository;
 import com.bragado.EmailSystem.services.UserServiceImpl;
-import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.entities.UserEvent;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 package com.bragado.EmailSystem.entities;
 
 import com.bragado.EmailSystem.components.AttributeEncryptor;
-import com.bragado.EmailSystem.dto.EmailId;
+import com.bragado.EmailSystem.components.EmailId;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.CreatedDate;

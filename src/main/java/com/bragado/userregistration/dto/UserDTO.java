@@ -1,21 +1,14 @@
 package com.bragado.userregistration.dto;
 
 import com.bragado.EmailSystem.entities.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO {
 
     private String firstName;
     private String lastName;
-//    @Past(message = "Birthday should be valid.")
-//    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
-//    private Date birthDay;
     @Email(message = "Email should be valid.")
     private String email;
 
@@ -44,14 +37,6 @@ public class UserDTO {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-//    public Date getBirthDay() {
-//        return birthDay;
-//    }
-//
-//    public void setBirthDay(Date birthDay) {
-//        this.birthDay = birthDay;
-//    }
 
     public String getEmail() {
         return email;
