@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/emails")
 @Validated
+@CrossOrigin
 public class EmailContentController {
 
     private final EmailContentService emailService;
@@ -37,7 +38,7 @@ public class EmailContentController {
 
     @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> createEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
+    public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailContentDTO emailDTO, @Valid @RequestParam(value = "id") Long id ) {
         if (!emailService.isEmailValid(emailDTO.getSender(), emailDTO.getRecipient())) {
             return new ResponseEntity<>(new Response("Invalid email. User not found."), HttpStatus.NOT_FOUND);
         }
@@ -58,7 +59,7 @@ public class EmailContentController {
 
     @GetMapping(value = "/get/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getUser(@EmailId @PathVariable(value = "id") Long id)  {
+    public ResponseEntity<Object> getEmail(@EmailId @PathVariable(value = "id") Long id)  {
         EmailContent emailContent = emailService.getEmail(id);
         if (emailContent == null) {
             return new ResponseEntity<>(new Response("No such email."), HttpStatus.NOT_FOUND);

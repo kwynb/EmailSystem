@@ -25,5 +25,7 @@ public interface EmailContentRepository extends JpaRepository<EmailContent, Long
     @Query(value="SELECT * FROM email WHERE CAST(created_at AS DATE) = :created_at", nativeQuery = true)
     List<EmailContent> findEmailsCreatedAt(@Param("created_at") @JsonFormat(pattern = "MM-dd-yyyy") Date createdAt);
 
+    @Query(value="UPDATE email SET isUnread = :isUnread", nativeQuery = true)
+    List<EmailContent> findUnreadEmails(@Param("isUnread") boolean isUnread);
 
 }

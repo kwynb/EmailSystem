@@ -30,7 +30,8 @@ public class EmailContent {
     private String subject;
     @Convert(converter = AttributeEncryptor.class)
     private String text;
-
+    @Column(name = "isUnread")
+    private Boolean isUnread;
     @CreatedDate
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -53,12 +54,23 @@ public class EmailContent {
         this.text = text;
     }
 
-    public EmailContent(Long id, String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
+//    public EmailContent(Long id, String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
+//        this.id = id;
+//        this.sender = sender;
+//        this.recipient = recipient;
+//        this.subject = subject;
+//        this.text = text;
+//        this.createdAt = createdAt;
+//        this.lastModified = lastModified;
+//    }
+
+    public EmailContent(Long id, String sender, String recipient, String subject, String text, Boolean isUnread, Date createdAt, Date lastModified) {
         this.id = id;
         this.sender = sender;
         this.recipient = recipient;
         this.subject = subject;
         this.text = text;
+        this.isUnread = true;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
     }
@@ -101,6 +113,14 @@ public class EmailContent {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Boolean getUnread() {
+        return isUnread;
+    }
+
+    public void setUnread(Boolean unread) {
+        isUnread = unread;
     }
 
     public Date getCreatedAt() {
