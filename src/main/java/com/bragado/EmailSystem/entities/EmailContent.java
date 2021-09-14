@@ -30,14 +30,15 @@ public class EmailContent {
     private String subject;
     @Convert(converter = AttributeEncryptor.class)
     private String text;
-    @Column(name = "isUnread")
+    @Column(name = "delivery_status")
+    private String deliveryStatus;
+    @Column(name = "is_unread")
     private Boolean isUnread;
     @CreatedDate
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
     private Date createdAt;
-
     @LastModifiedDate
     @Column(name = "last_modified")
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,23 +55,23 @@ public class EmailContent {
         this.text = text;
     }
 
-//    public EmailContent(Long id, String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
-//        this.id = id;
-//        this.sender = sender;
-//        this.recipient = recipient;
-//        this.subject = subject;
-//        this.text = text;
-//        this.createdAt = createdAt;
-//        this.lastModified = lastModified;
-//    }
+    public EmailContent(String sender, String recipient, String subject, String text, String deliveryStatus, Boolean isUnread) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.subject = subject;
+        this.text = text;
+        this.deliveryStatus = deliveryStatus;
+        this.isUnread = isUnread;
+    }
 
-    public EmailContent(Long id, String sender, String recipient, String subject, String text, Boolean isUnread, Date createdAt, Date lastModified) {
+    public EmailContent(Long id, String sender, String recipient, String subject, String text, String deliveryStatus, Boolean isUnread, Date createdAt, Date lastModified) {
         this.id = id;
         this.sender = sender;
         this.recipient = recipient;
         this.subject = subject;
         this.text = text;
-        this.isUnread = true;
+        this.deliveryStatus = deliveryStatus;
+        this.isUnread = isUnread;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
     }
@@ -115,6 +116,14 @@ public class EmailContent {
         this.text = text;
     }
 
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
     public Boolean getUnread() {
         return isUnread;
     }
@@ -147,6 +156,7 @@ public class EmailContent {
                 ", recipient='" + recipient + '\'' +
                 ", subject='" + subject + '\'' +
                 ", text='" + text + '\'' +
+                ", isUnread=" + isUnread +
                 ", createdAt=" + createdAt +
                 ", lastModified=" + lastModified +
                 '}';

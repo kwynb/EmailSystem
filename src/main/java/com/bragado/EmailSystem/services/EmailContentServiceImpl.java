@@ -6,9 +6,11 @@ import com.bragado.EmailSystem.entities.User;
 import com.bragado.EmailSystem.repositories.EmailContentRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
+@Transactional
 @Service
 public class EmailContentServiceImpl implements EmailContentService {
     private final EmailContentRepository emailRepository;
@@ -21,7 +23,6 @@ public class EmailContentServiceImpl implements EmailContentService {
 
     @Override
     public EmailContent createEmail(EmailContentDTO emailContent) {
-
         return emailRepository.save(emailContent.toEmail());
     }
 
@@ -32,6 +33,8 @@ public class EmailContentServiceImpl implements EmailContentService {
         email.setRecipient(emailContent.getRecipient());
         email.setSubject(emailContent.getSubject());
         email.setText(emailContent.getText());
+        email.setDeliveryStatus(emailContent.getDeliveryStatus());
+        email.setUnread(emailContent.getUnread());
         return emailRepository.save(email);
     }
 
@@ -39,7 +42,6 @@ public class EmailContentServiceImpl implements EmailContentService {
     public void deleteEmail(Long id) {
         emailRepository.deleteById(id);
     }
-
 
     @Override
     public EmailContent getEmail(Long id) {
@@ -53,8 +55,33 @@ public class EmailContentServiceImpl implements EmailContentService {
     public List<EmailContent> getEmailList() { return emailRepository.findAll(); }
 
     @Override
+    public void updateUnreadStatus(Boolean isUnread, Long id) {
+        emailRepository.updateUnreadStatus(isUnread, id);
+    }
+
+    @Override
+    public void updateDeliveryStatus(String deliveryStatus, Long id) {
+        emailRepository.updateDeliveryStatus(deliveryStatus, id);
+    }
+
+    @Override
+    public List<EmailContent> getUnreadEmails() {
+        return emailRepository.findUnreadEmails(true);
+    }
+
+    @Override
+    public List<EmailContent> getReadEmails() {
+        return emailRepository.findUnreadEmails(false);
+    }
+
+    @Override
+    public List<EmailContent> getDraftsSentBy(String email) {
+        return emailRepository.findEmailsByDeliveryStatus("draft", email);
+    }
+
+    @Override
     public List<EmailContent> getEmailsSentBy(String sender) {
-        return emailRepository.findEmailsSentBy(sender);
+        return emailRepository.findEmailsByDeliveryStatus("sent",sender);
     }
 
     @Override
@@ -71,9 +98,6 @@ public class EmailContentServiceImpl implements EmailContentService {
     public boolean isEmailValid(String sender, String recipient) {
         User from = userService.getUserByEmail(sender);
         User to = userService.getUserByEmail(recipient);
-        if (from == null || to == null) {
-            return false;
-        }
-        return true;
+        return from != null && to != null;
     }
 }

@@ -10,26 +10,19 @@ public class EmailContentDTO {
     private String recipient;
     private String subject;
     private String text;
+    private String deliveryStatus;
     private Boolean isUnread;
     private Date createdAt;
     private Date lastModified;
 
     public EmailContentDTO() {}
 
-//    public EmailContentDTO(String sender, String recipient, String subject, String text, Date createdAt, Date lastModified) {
-//        this.sender = sender;
-//        this.recipient = recipient;
-//        this.subject = subject;
-//        this.text = text;
-//        this.createdAt = createdAt;
-//        this.lastModified = lastModified;
-//    }
-
-    public EmailContentDTO(String sender, String recipient, String subject, String text, Boolean isUnread, Date createdAt, Date lastModified) {
+    public EmailContentDTO(String sender, String recipient, String subject, String text, String deliveryStatus, Boolean isUnread, Date createdAt, Date lastModified) {
         this.sender = sender;
         this.recipient = recipient;
         this.subject = subject;
         this.text = text;
+        this.deliveryStatus = deliveryStatus;
         this.isUnread = isUnread;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
@@ -67,6 +60,14 @@ public class EmailContentDTO {
         this.text = text;
     }
 
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
     public Boolean getUnread() {
         return isUnread;
     }
@@ -91,7 +92,7 @@ public class EmailContentDTO {
         this.lastModified = lastModified;
     }
 
-    public EmailContent toEmail() { return new EmailContent(sender,recipient,subject,text); }
+    public EmailContent toEmail() { return new EmailContent(sender,recipient,subject,text,deliveryStatus,isUnread); }
 }
 
 

@@ -71,7 +71,10 @@ public class EmailContentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmailContent>> getEmailList() { return new ResponseEntity<>(emailService.getEmailList(), HttpStatus.OK); }
 
-
+    @GetMapping(value="/draft")
+    public ResponseEntity<List<EmailContent>>  getDraftsSentBy(@RequestParam(value="by") @Email String email) {
+        return new ResponseEntity<>(emailService.getDraftsSentBy(email),HttpStatus.OK);
+    }
     @GetMapping(value="/sent")
     public ResponseEntity<List<EmailContent>>  getEmailsSentBy(@RequestParam(value="by") @Email String email) {
         return new ResponseEntity<>(emailService.getEmailsSentBy(email),HttpStatus.OK);
@@ -85,6 +88,26 @@ public class EmailContentController {
     @GetMapping(value="/created")
     public ResponseEntity<List<EmailContent>>  getEmailsCreatedAt(@RequestParam(value="at") @JsonFormat(pattern = "MM/dd/yyyy") Date date) {
         return new ResponseEntity<>(emailService.getEmailsCreatedAt(date),HttpStatus.OK);
+    }
+
+    @PutMapping(value= "/set")
+    public ResponseEntity<EmailContent> updateUnreadStatus(@Valid @RequestParam(value="isUnread") Boolean isUnread, @RequestParam(value="id") Long id) {
+        emailService.updateUnreadStatus(isUnread, id);
+        return new ResponseEntity<>(emailService.getEmail(id), HttpStatus.OK);
+    }
+
+    @PutMapping(value= "/deliver")
+    public ResponseEntity<EmailContent> updateDeliveryStatus(@Valid @RequestParam(value="as") String deliveryStatus, @RequestParam(value="id") Long id) {
+        emailService.updateDeliveryStatus(deliveryStatus, id);
+        return new ResponseEntity<>(emailService.getEmail(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value= "/is")
+    public ResponseEntity<List<EmailContent>> getUnreadStatus(@Valid @RequestParam(value="unread") Boolean isUnread) {
+        if (!isUnread) {
+            return new ResponseEntity<>(emailService.getReadEmails(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(emailService.getUnreadEmails(), HttpStatus.OK);
     }
 
 }

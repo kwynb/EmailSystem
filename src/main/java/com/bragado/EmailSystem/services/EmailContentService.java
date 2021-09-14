@@ -11,11 +11,18 @@ public interface EmailContentService {
 
     EmailContent createEmail(EmailContentDTO emailContent);
     EmailContent updateEmail(EmailContentDTO emailContent, Long id);
+    void updateUnreadStatus(Boolean isUnread, Long id);
+    void updateDeliveryStatus(String deliveryStatus, Long id);
     EmailContent getEmail(Long id);
-    void deleteEmail(Long id);
-    List<EmailContent> getEmailList();
 
     boolean isEmailValid(String sender, String recipient);
+    void deleteEmail(Long id);
+
+    List<EmailContent>  getEmailList();
+    List<EmailContent>  getUnreadEmails();
+    List<EmailContent>  getReadEmails();
+
+    List<EmailContent>  getDraftsSentBy(String email);
     List<EmailContent> getEmailsSentBy(String sender);
     List<EmailContent> getEmailsReceivedBy(String recipient);
     List<EmailContent> getEmailsCreatedAt(Date createdAt);
