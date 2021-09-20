@@ -39,4 +39,11 @@ public interface EmailContentRepository extends JpaRepository<EmailContent, Long
 
     @Query(value="SELECT * FROM email WHERE delivery_status = :delivery_status AND sender= :sender", nativeQuery = true)
     List<EmailContent> findEmailsByDeliveryStatus(@Param("delivery_status") String delivery_status, @Param("sender") @Email String sender);
+
+    @Query(value="SELECT * FROM email ORDER BY last_modified ASC", nativeQuery = true)
+    List<EmailContent> sortByASC();
+
+    @Query(value="SELECT * FROM email ORDER BY last_modified DESC", nativeQuery = true)
+    List<EmailContent> sortByDESC();
+
 }

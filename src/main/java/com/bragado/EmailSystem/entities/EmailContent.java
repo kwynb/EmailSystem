@@ -4,6 +4,7 @@ import com.bragado.EmailSystem.components.AttributeEncryptor;
 import com.bragado.EmailSystem.components.EmailId;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 
 @Entity
+@DynamicUpdate
 @Table(name="email")
 @EntityListeners(AuditingEntityListener.class)
 public class EmailContent {
@@ -39,6 +41,7 @@ public class EmailContent {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
     private Date createdAt;
+
     @LastModifiedDate
     @Column(name = "last_modified")
     @Temporal(TemporalType.TIMESTAMP)
